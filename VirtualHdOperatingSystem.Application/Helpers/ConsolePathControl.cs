@@ -9,39 +9,17 @@ namespace VirtualHdOperatingSystem.Application.Helpers
 {
     public static class ConsolePathControl
     {
-        private static string SelectedHd { get; set; }
+        private static Hd SelectedHd;
         private static List<string> FilesStack { get; set; } = new List<string>();
-        private static List<HdInfo> HdInfoList { get; set; } = new List<HdInfo>();
 
-        public static void SetSelectedHd(string _hdName)
+        public static void SetSelectedHd(Hd _hd)
         {
-            if (File.Exists($"storage/{_hdName}"))
-            {
-                SelectedHd = _hdName;
-                FilesStack = new List<string>();
-                FilesStack.Add("raiz");
-            }
+            FilesStack.Clear();
+            FilesStack.Add("raiz");
+            SelectedHd = _hd;
         }
 
-        public static void AddHdToList(HdInfo _hdInfo)
-        {
-            HdInfoList.Add(_hdInfo);
-        }
-
-        public static HdInfo GetHdByName(string _hdName)
-        {
-            foreach(var hd in HdInfoList)
-            {
-                if(hd.HdName == _hdName)
-                {
-                    return hd;
-                }
-            }
-
-            return null;
-        }
-
-        public static string GetSelectedHd()
+        public static Hd GetSelectedHd()
         {
             return SelectedHd;
         }

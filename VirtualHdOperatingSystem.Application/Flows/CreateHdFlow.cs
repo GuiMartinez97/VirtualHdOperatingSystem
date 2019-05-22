@@ -40,39 +40,32 @@ namespace VirtualHdOperatingSystem.Application.Flows
             {
                 var bytes = new byte[BlockNumber * BlockSize];
 
-                //bytes[0] = (byte)BlockNumber;
-                //bytes[1] = (byte)BlockSize;
+                var blockNumberInByte = BitConverter.GetBytes(BlockNumber);
+                var blockSizeInByte= BitConverter.GetBytes(BlockSize);
 
-                var hdInfo = new HdInfo
+                if(blockNumberInByte.Length > 4 || blockSizeInByte.Length > 4)
                 {
-                    BlockNumber = BlockNumber,
-                    BlockSize = BlockSize,
-                    HdName = HdName
-                };
-
-                ConsolePathControl.AddHdToList(hdInfo);
-
-                var BlockNumberInByte = BitConverter.GetBytes(BlockNumber);
-
-                int j = 0;
-                for(int i = 0; j< BlockNumberInByte.Length; i++, j++)
-                {
-                    bytes[i] = BlockNumberInByte[j];
+                    throw new Exception("Invalid parameter input format!");
                 }
 
-                var BlockSizeInByte = BitConverter.GetBytes(BlockSize);
+                bytes[0] = (byte)1;
+                int j = 0;
+                for(int i = 1; j< blockNumberInByte.Length; i++, j++)
+                {
+                    bytes[i] = blockNumberInByte[j];
+                }
 
                 j = 0;
-                for (int i = BlockSize/2; j < BlockSizeInByte.Length; i++, j++)
+                for (int i = 5; j < blockSizeInByte.Length; i++, j++)
                 {
-                    bytes[i] = BlockSizeInByte[j];
+                    bytes[i] = blockSizeInByte[j];
                 }
 
                 bytes[BlockSize] = Convertions.BinaryStringRepresentationIntoBinary("b.00000001")[0];
                 byte[] raizBytes = Encoding.ASCII.GetBytes("raiz");
 
                 j = 0;
-                for (var i = BlockSize + 8 ; j< raizBytes.Length ; i++, j++)
+                for (var i = BlockSize + 9 ; j< raizBytes.Length ; i++, j++)
                 {
                     bytes[i] = raizBytes[j];
                 }

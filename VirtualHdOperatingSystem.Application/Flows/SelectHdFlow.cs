@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace VirtualHdOperatingSystem.Application.Flows
 {
@@ -24,7 +25,16 @@ namespace VirtualHdOperatingSystem.Application.Flows
 
         public void Execute()
         {
-            ConsolePathControl.SetSelectedHd(HdName);
+            if (File.Exists($"storage/{HdName}"))
+            {
+                var bytesFromFile = File.ReadAllBytes($"storage/{HdName}");
+
+                ConsolePathControl.SetSelectedHd(new Hd(HdName, bytesFromFile));
+            }
+            else
+            {
+                throw new Exception("Hd não encontrado!");
+            }            
         }
     }
 }

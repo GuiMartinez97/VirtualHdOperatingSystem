@@ -56,7 +56,7 @@
     <Compile Include="Factories\CommandFactory.cs" />
     <Compile Include="Helpers\ConsolePathControl.cs" />
     <Compile Include="Helpers\Convertions.cs" />
-    <Compile Include="Models\HdInfo.cs" />
+    <Compile Include="Models\Hd.cs" />
     <Compile Include="Interfaces\ICommandFlow.cs" />
     <Compile Include="Interfaces\ICommandSplitter.cs" />
     <Compile Include="Models\EnteredCommand.cs" />

@@ -19,7 +19,13 @@ namespace VirtualHdOperatingSystem.Application
 
                 while (true)
                 {
-                    Console.Write($"()==)=======>#{ConsolePathControl.GetSelectedHd()} > ");
+                    string hdName = "";
+                    var hd = ConsolePathControl.GetSelectedHd();
+                    if(hd != null)
+                    {
+                        hdName = hd.HdName;
+                    }
+                    Console.Write($"()==)=======>#{hdName} > ");
                     var commandString = Console.ReadLine();
 
                     var splitedCommand = splitter.Split(commandString);
