@@ -34,7 +34,7 @@ namespace VirtualHdOperatingSystem.Application.Helpers
             FilesStack.Add(new BlockAndName(_exactByteInit, _fileName));
         }
 
-        public static void PopStack(string _fileName)
+        public static void PopStack()
         {
             FilesStack.RemoveAt(FilesStack.Count - 1);
         }

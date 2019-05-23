@@ -23,45 +23,52 @@ namespace VirtualHdOperatingSystem.Application.Flows
         }
         public void Execute()
         {
-            var hd = ConsolePathControl.GetSelectedHd();
-            int fatherByte = ConsolePathControl.GetLastByteInitFromStack();
-
-            for(var i = 0; i<hd.Bytes.Length; i+= hd.BlockSize)
+            if (FileToSearch != "..")
             {
-                if(i != 0)
+                var hd = ConsolePathControl.GetSelectedHd();
+                int fatherByte = ConsolePathControl.GetLastByteInitFromStack();
+
+                for (var i = 0; i < hd.Bytes.Length; i += hd.BlockSize)
                 {
-                    var thisFatherIntByte = new byte[4];
-
-                    var l = 0;
-                    for (var v = i + 1; l < thisFatherIntByte.Length; v++, l++)
+                    if (i != 0)
                     {
-                        thisFatherIntByte[l] = hd.Bytes[v];
-                    }
+                        var thisFatherIntByte = new byte[4];
 
-                    var thisFatherInt = BitConverter.ToInt32(thisFatherIntByte, 0);
-
-                    if (thisFatherInt == fatherByte)
-                    {
-                        var candidateNameInByte = new byte[hd.BlockSize - 9];
-                        l = i + 9;
-                        for (var j = 0; j < candidateNameInByte.Length; j++, l++)
+                        var l = 0;
+                        for (var v = i + 1; l < thisFatherIntByte.Length; v++, l++)
                         {
-                            candidateNameInByte[j] = hd.Bytes[l];
+                            thisFatherIntByte[l] = hd.Bytes[v];
                         }
 
-                        string cdName = System.Text.Encoding.Default.GetString(candidateNameInByte);
+                        var thisFatherInt = BitConverter.ToInt32(thisFatherIntByte, 0);
 
-                        cdName = cdName.Replace("\0", string.Empty);
-
-                        if (cdName == FileToSearch)
+                        if (thisFatherInt == fatherByte)
                         {
-                            ConsolePathControl.PushStack(i, FileToSearch);
+                            var candidateNameInByte = new byte[hd.BlockSize - 9];
+                            l = i + 9;
+                            for (var j = 0; j < candidateNameInByte.Length; j++, l++)
+                            {
+                                candidateNameInByte[j] = hd.Bytes[l];
+                            }
 
-                            break;
+                            string cdName = System.Text.Encoding.Default.GetString(candidateNameInByte);
+
+                            cdName = cdName.Replace("\0", string.Empty);
+
+                            if (cdName == FileToSearch)
+                            {
+                                ConsolePathControl.PushStack(i, FileToSearch);
+
+                                break;
+                            }
+
                         }
-
                     }
-                }                             
+                }
+            }
+            else
+            {
+                ConsolePathControl.PopStack();
             }
         }
     }

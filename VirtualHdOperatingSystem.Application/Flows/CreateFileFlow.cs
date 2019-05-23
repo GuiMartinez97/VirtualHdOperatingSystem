@@ -142,7 +142,7 @@ namespace VirtualHdOperatingSystem.Application.Flows
                     {
                         Hd.Bytes[k] = contentBytes[l];
                     }
-
+                    File.WriteAllBytes($"storage/{Hd.HdName}", Hd.Bytes);
                     break;
                 }
             }

@@ -46,6 +46,7 @@
     <Compile Include="Flows\CdFlow.cs" />
     <Compile Include="Flows\CreateFileFlow.cs" />
     <Compile Include="Flows\CreateHdFlow.cs" />
+    <Compile Include="Flows\DirFlow.cs" />
     <Compile Include="Flows\DirHdFlow.cs" />
     <Compile Include="Flows\FormatHdFlow.cs" />
     <Compile Include="Flows\HelpFlow.cs" />

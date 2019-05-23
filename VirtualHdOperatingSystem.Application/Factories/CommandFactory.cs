@@ -22,6 +22,8 @@ namespace VirtualHdOperatingSystem.Application.Factories
                     return new FormatHdFlow(command.Parameters);
                 case "dirhd":
                     return new DirHdFlow();
+                case "dir":
+                    return new DirFlow();
                 case "selecthd":
                     return new SelectHdFlow(command.Parameters);
                 case "createfile":
