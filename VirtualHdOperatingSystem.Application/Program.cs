@@ -25,7 +25,15 @@ namespace VirtualHdOperatingSystem.Application
                     {
                         hdName = hd.HdName;
                     }
-                    Console.Write($"()==)=======>#{hdName} > ");
+
+                    string files = "";
+
+                    foreach(var file in ConsolePathControl.GetFullFileStack())
+                    {
+                        files += "/" + file.fileName;
+                    }
+
+                    Console.Write($"()==)=======>#{hdName}{files} > ");
                     var commandString = Console.ReadLine();
 
                     var splitedCommand = splitter.Split(commandString);

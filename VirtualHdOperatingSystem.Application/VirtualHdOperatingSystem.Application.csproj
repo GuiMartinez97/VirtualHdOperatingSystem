@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandSplitters\DefaultCommandSplitter.cs" />
+    <Compile Include="Flows\CdFlow.cs" />
     <Compile Include="Flows\CreateFileFlow.cs" />
     <Compile Include="Flows\CreateHdFlow.cs" />
     <Compile Include="Flows\DirHdFlow.cs" />

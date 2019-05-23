@@ -12,53 +12,140 @@ namespace VirtualHdOperatingSystem.Application.Flows
         public string FileName { get; set; }
         public string FileContent { get; set; }
         public Hd Hd { get; set; }
-        private List<string> FilesStack { get; set; }
-        private int CurrentBlockByte { get; set; }
-        private bool HasBrother { get; set; }
+        public int CurrentByteInit { get; set; }
 
         public CreateFileFlow(List<string> _parameters)
         {
-            if (_parameters.Count != 1 || _parameters.Count != 2)
+            if (_parameters.Count != 1 && _parameters.Count != 2)
             {
                 throw new Exception("Invalid parameters number!");
             }
             FileContent = null;
             FileName = _parameters[0];
 
-            if (_parameters.Count != 2)
+            if (_parameters.Count == 2)
             {
                 FileContent = _parameters[1];
             }
 
-            FilesStack = ConsolePathControl.GetFullFileStack();
+            Hd = ConsolePathControl.GetSelectedHd();
+            CurrentByteInit = ConsolePathControl.GetLastByteInitFromStack();
         }
 
         public void Execute()
         {
-            //try
-            //{   
-            //    for (var i = 0; i<FilesStack.Count; i++)
-            //    {
-            //        var fileNameInByte = GetFileNameFromByteArray((CurrentBlockByte + 8), (CurrentBlockByte + HdInfo.BlockSize - 1));
-            //        var fileNameGenerated = Encoding.UTF8.GetString(fileNameInByte);
+            try
+            {
+                FindEmptyBlockForFile();
+                //Encontrar um lugar vazio
 
-            //        if (FilesStack[i] == fileNameGenerated)
-            //        {
-            //            if(i == FilesStack.Count - 1)
-            //            {
-            //                VerifyBrothers();
-            //            }
-            //        }
-            //    }
+                //Inserir como preenchido no primeiro byte
 
-            //    CreateFilePointer();
+                //Inserir como pai o CurrrentBlock
 
-            //    File.WriteAllBytes($"storage/{ConsolePathControl.GetSelectedHd()}", Hd);
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception($"Something went wrong: {ex.Message}");
-            //}
+                //Encontrar um lugar vazio para o conteudo
+
+                //Gravar o bloco do conteudo no bloco do file
+
+                //Gravar o conteudo
+
+
+                //for (var i = 0; i < FilesStack.Count; i++)
+                //{
+                //    var fileNameInByte = GetFileNameFromByteArray((CurrentBlockByte + 8), (CurrentBlockByte + HdInfo.BlockSize - 1));
+                //    var fileNameGenerated = Encoding.UTF8.GetString(fileNameInByte);
+
+                //    if (FilesStack[i] == fileNameGenerated)
+                //    {
+                //        if (i == FilesStack.Count - 1)
+                //        {
+                //            VerifyBrothers();
+                //        }
+                //    }
+                //}
+
+                //CreateFilePointer();
+
+                //File.WriteAllBytes($"storage/{ConsolePathControl.GetSelectedHd()}", Hd);
+            }
+            catch (Exception ex)
+            {
+                //throw new Exception($"Something went wrong: {ex.Message}");
+            }
+        }
+
+        private void FindEmptyBlockForFile()
+        {
+            int j = 0;
+            for (var i = 0; i < Hd.BlockNumber; i++, j += Hd.BlockSize)
+            {
+                if (Hd.Bytes[j] == 0)
+                {
+                    Hd.Bytes[j] = 1;
+
+                    var currentByteInitInBytes = BitConverter.GetBytes(CurrentByteInit);
+
+                    int l = 0;
+                    for (var k = j + 1; l < currentByteInitInBytes.Length; k++, l++)
+                    {
+                        Hd.Bytes[k] = currentByteInitInBytes[l];
+                    }
+
+                    byte[] nameBytes = Encoding.ASCII.GetBytes(FileName);
+
+                    l = 0;
+                    for (var k = j + 9; l < nameBytes.Length; k++, l++)
+                    {
+                        Hd.Bytes[k] = nameBytes[l];
+                    }
+
+                    if(FileContent != null)
+                    {
+                        FindEmptyBlockForContent(j);
+                    }
+
+                    File.WriteAllBytes($"storage/{Hd.HdName}", Hd.Bytes);
+
+                    break;
+                }
+            }
+        }
+
+        private void FindEmptyBlockForContent(int _father)
+        {
+            int j = (int)Math.Ceiling(Hd.BlockNumber * 0.4) * Hd.BlockSize;
+            for (var i = (int)Math.Ceiling(Hd.BlockNumber * 0.4); i < Hd.BlockNumber; i++, j += Hd.BlockSize)
+            {
+                if (Hd.Bytes[j] == 0)
+                {
+                    Hd.Bytes[j] = 1;
+
+                    var _fatherBytes = BitConverter.GetBytes(_father);
+
+                    int l = 0;
+                    for (var k = j + 1; l < _fatherBytes.Length; k++, l++)
+                    {
+                        Hd.Bytes[k] = _fatherBytes[l];
+                    }
+
+                    byte[] fileContentBytes = Encoding.ASCII.GetBytes(FileContent);
+
+                    l = 0;
+                    for (var k = j + 5; l < fileContentBytes.Length; k++, l++)
+                    {
+                        Hd.Bytes[k] = fileContentBytes[l];
+                    }
+
+                    var contentBytes = BitConverter.GetBytes(j);
+                    l = 0;
+                    for (var k = _father + 5; l < fileContentBytes.Length; k++, l++)
+                    {
+                        Hd.Bytes[k] = contentBytes[l];
+                    }
+
+                    break;
+                }
+            }
         }
 
         //private void CreateFilePointer()
@@ -76,7 +163,7 @@ namespace VirtualHdOperatingSystem.Application.Flows
         //    Hd[emptyBlock] = Convertions.BinaryStringRepresentationIntoBinary("b.00000001")[0];
 
         //    var fileNameInBytes = Encoding.ASCII.GetBytes(FileName);
-            
+
         //    var j = 0;
         //    for (var i = emptyBlock + 8; j < fileNameInBytes.Length; i++, j++)
         //    {
@@ -108,7 +195,7 @@ namespace VirtualHdOperatingSystem.Application.Flows
         //            VerifyBrothers();
         //        }
         //    }
-            
+
         //}
 
         //private void WriteFileContent(int _pointer)
@@ -177,7 +264,7 @@ namespace VirtualHdOperatingSystem.Application.Flows
         //    {
         //        stringSize++;
         //    }
-            
+
         //    var stringInByte = new byte[stringSize];
 
         //    var j = 0;

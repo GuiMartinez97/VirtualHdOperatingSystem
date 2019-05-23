@@ -30,6 +30,8 @@ namespace VirtualHdOperatingSystem.Application.Factories
                     return new TypeFlow(command.Parameters);
                 case "mkdir":
                     return new CreateFileFlow(command.Parameters);
+                case "cd":
+                    return new CdFlow(command.Parameters);
                 default:
                     return new InvalidFlow(command.Parameters);
             }
