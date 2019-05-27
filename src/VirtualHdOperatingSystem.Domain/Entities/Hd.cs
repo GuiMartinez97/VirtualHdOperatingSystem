@@ -79,6 +79,18 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             throw new Exception("Folder not found!");
         }
 
+        public void TypeHd()
+        {
+            for(int InicialBlock = 0 ; InicialBlock < BlockNumber - 1; InicialBlock++)
+            {
+                var byteForAnalisedBlock = GetInicialByteOfBlock(InicialBlock);
+                if(Bytes[byteForAnalisedBlock] == 1)
+                {
+                    Console.WriteLine($"{InicialBlock} - {Bytes[byteForAnalisedBlock]} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4))} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 5, byteForAnalisedBlock + 8))} - {GetBlockName(InicialBlock)}");
+                }
+            }
+        }
+
         private void WriteContentReference(int _fileBlock, int _emptyBlockForContent)
         {
             var inicialByte = GetInicialByteOfBlock(_fileBlock);

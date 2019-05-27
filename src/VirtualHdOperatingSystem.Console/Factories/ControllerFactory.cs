@@ -21,6 +21,8 @@ namespace VirtualHdOperatingSystem.Console.Factories
                     return new CreateFolderController(request.Parameters);
                 case "createfile":
                     return new CreateFileController(request.Parameters);
+                case "typehd":
+                    return new TypeHdController(request.Parameters);
                 case "cd":
                     return new CdController(request.Parameters);
                 case "cls":

@@ -53,6 +53,7 @@
     <Compile Include="Controllers\CreateHdController.cs" />
     <Compile Include="Controllers\InvalidRequestController.cs" />
     <Compile Include="Controllers\SelectHdController.cs" />
+    <Compile Include="Controllers\TypeHdController.cs" />
     <Compile Include="Factories\ControllerFactory.cs" />
     <Compile Include="Helpers\ConsoleHelper.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
