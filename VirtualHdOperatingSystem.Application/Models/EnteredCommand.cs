@@ -2,7 +2,7 @@
 
 namespace VirtualHdOperatingSystem.Application.Models
 {
-    public class EnteredCommand
+    public class Request
     {
         public string Root { get; set; }
         public List<string> Parameters { get; set; }

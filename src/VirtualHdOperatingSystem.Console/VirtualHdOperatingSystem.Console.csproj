@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=4.6.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.4.6.0\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,11 +46,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CdController.cs" />
+    <Compile Include="Controllers\ClsController.cs" />
+    <Compile Include="Controllers\CreateFileController.cs" />
+    <Compile Include="Controllers\CreateFolderController.cs" />
+    <Compile Include="Controllers\CreateHdController.cs" />
+    <Compile Include="Controllers\InvalidRequestController.cs" />
+    <Compile Include="Controllers\SelectHdController.cs" />
+    <Compile Include="Factories\ControllerFactory.cs" />
+    <Compile Include="Helpers\ConsoleHelper.cs" />
+    <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Interfaces\IController.cs" />
+    <Compile Include="Models\Request.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\VirtualHdOperatingSystem.Application\VirtualHdOperatingSystem.Application.csproj">
+      <Project>{45BCA238-C278-4BD0-94B4-6DD162DE5353}</Project>
+      <Name>VirtualHdOperatingSystem.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualHdOperatingSystem.Data\VirtualHdOperatingSystem.Data.csproj">
+      <Project>{CF27931B-6DDE-4DFE-B922-6FCAD771830B}</Project>
+      <Name>VirtualHdOperatingSystem.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualHdOperatingSystem.Domain\VirtualHdOperatingSystem.Domain.csproj">
+      <Project>{EDD9AD08-458D-4BCB-8296-964A551223A1}</Project>
+      <Name>VirtualHdOperatingSystem.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
