@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualHdOperatingSystem.Application - old", "VirtualHdOperatingSystem.Application\VirtualHdOperatingSystem.Application - old.csproj", "{8E9CAFBF-435D-4618-AA31-8E1A1E1DBB6D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Application", "0 - Application", "{374CE4B4-C410-429F-973B-120FDC56D4EE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Console", "0 - Console", "{E1E79DE2-41E1-4427-910A-A023394E356F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Application", "1 - Application", "{C37795C4-A845-41C3-BB8F-C21907D8BAEC}"
@@ -31,10 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8E9CAFBF-435D-4618-AA31-8E1A1E1DBB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E9CAFBF-435D-4618-AA31-8E1A1E1DBB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E9CAFBF-435D-4618-AA31-8E1A1E1DBB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E9CAFBF-435D-4618-AA31-8E1A1E1DBB6D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE3D38F5-0AF3-4624-9340-077258F212AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE3D38F5-0AF3-4624-9340-077258F212AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE3D38F5-0AF3-4624-9340-077258F212AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,7 +48,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8E9CAFBF-435D-4618-AA31-8E1A1E1DBB6D} = {374CE4B4-C410-429F-973B-120FDC56D4EE}
 		{1ECED22F-B37B-4FFB-92B9-03CE0419F52C} = {D3BFB689-5EDC-48DE-B520-86FDDD03A250}
 		{EE3D38F5-0AF3-4624-9340-077258F212AD} = {E1E79DE2-41E1-4427-910A-A023394E356F}
 		{45BCA238-C278-4BD0-94B4-6DD162DE5353} = {C37795C4-A845-41C3-BB8F-C21907D8BAEC}

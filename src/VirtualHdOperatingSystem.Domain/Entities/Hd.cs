@@ -34,15 +34,32 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             StartBlockForContentRegion = GetStartBlockForContentRegion();
         }
 
-        public void CreateFolder(string _folderName, int currentFileBlock)
+        public int CreateFolder(string _folderName, int _currentFileBlock)
         {
             int emptyBlock = FindEmptyBlockForFolder();
 
             SetInUsedBlock(emptyBlock);
 
-            WriteFather(emptyBlock, currentFileBlock);
+            WriteFather(emptyBlock, _currentFileBlock);
 
             WriteName(emptyBlock, _folderName);
+
+            return emptyBlock;
+        }
+
+        public void CreateFile(string _folderName, int _currentFileBlock, string _content)
+        {
+            var fileBlock = CreateFolder(_folderName, _currentFileBlock);
+
+            int emptyBlockForContent = FindEmptyBlockForContent();
+
+            SetInUsedBlock(emptyBlockForContent);
+
+            WriteContentReference(fileBlock, emptyBlockForContent);
+
+            WriteFather(emptyBlockForContent, fileBlock);
+
+            WriteContent(emptyBlockForContent, _content);
         }
 
         public int EnterFolder(string _folderName, int _currentFileBlock)
@@ -60,6 +77,20 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             }
 
             throw new Exception("Folder not found!");
+        }
+
+        private void WriteContentReference(int _fileBlock, int _emptyBlockForContent)
+        {
+            var inicialByte = GetInicialByteOfBlock(_fileBlock);
+            var emptyBlockForContentInByte = GetBytesFromInt(_emptyBlockForContent);
+
+            CopyToBytes(emptyBlockForContentInByte, inicialByte + 5, inicialByte + 8);
+        }
+
+        private void WriteContent(int _emptyBlockForContent, string _content)
+        {
+            var contentInByte = GetBytesFromString(_content);
+            CopyToBytes(contentInByte, _emptyBlockForContent + 9);
         }
 
         private string GetBlockName(int _block)
@@ -85,6 +116,20 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             for(int blockBeingCurrentlyAnalized = 0 ; blockBeingCurrentlyAnalized <= MaxBlockForFolderRegion ; blockBeingCurrentlyAnalized++, startByteOfTheBlockBeingAnalized += BlockSize + 13)
             {
                 if(Bytes[startByteOfTheBlockBeingAnalized] == 0)
+                {
+                    return blockBeingCurrentlyAnalized;
+                }
+            }
+
+            throw new Exception("Not enough space for creating folder!");
+        }
+
+        private int FindEmptyBlockForContent()
+        {
+            int startByteOfTheBlockBeingAnalized = GetInicialByteOfBlock(StartBlockForContentRegion);
+            for (int blockBeingCurrentlyAnalized = StartBlockForContentRegion; blockBeingCurrentlyAnalized <= BlockNumber; blockBeingCurrentlyAnalized++, startByteOfTheBlockBeingAnalized += BlockSize + 13)
+            {
+                if (Bytes[startByteOfTheBlockBeingAnalized] == 0)
                 {
                     return blockBeingCurrentlyAnalized;
                 }

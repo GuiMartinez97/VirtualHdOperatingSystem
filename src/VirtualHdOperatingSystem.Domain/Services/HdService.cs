@@ -32,5 +32,11 @@ namespace VirtualHdOperatingSystem.Domain.Services
             _hd.CreateFolder(_folderName, _currentFileBlock);
             __hdRepository__.UpsertHd(_hd);
         }
+
+        public void CreateFile(Hd _hd, string _fileName, int _currentFileBlock, string _content)
+        {
+            _hd.CreateFile(_fileName, _currentFileBlock, _content);
+            __hdRepository__.UpsertHd(_hd);
+        }
     }
 }
