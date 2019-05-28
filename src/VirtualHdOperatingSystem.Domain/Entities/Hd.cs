@@ -460,7 +460,7 @@ namespace VirtualHdOperatingSystem.Domain.Entities
 
         private void WriteContentInByte(int _emptyBlockForContent, byte[] _content)
         {
-            CopyToBytes(_content, _emptyBlockForContent + 9);
+            CopyToBytes(_content, GetInicialByteOfBlock(_emptyBlockForContent) + 5);
         }
 
         private string GetBlockName(int _block)
