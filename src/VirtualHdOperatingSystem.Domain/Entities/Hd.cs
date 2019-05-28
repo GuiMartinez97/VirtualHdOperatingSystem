@@ -254,6 +254,44 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             }
         }
 
+        public void CleanFromThisFileNameOn(int _currentBlock, string _fileToBeCleaned)
+        {
+            int fileToBeCleanedBlock = EnterFolder(_fileToBeCleaned, _currentBlock);
+
+            Clean(_currentBlock, fileToBeCleanedBlock);
+        }
+
+        private void Clean(int _currentBlock, int _fileToBeCleanedBlock)
+        {
+            // Identificamos se é arquivo (caso base)
+            if (IsFile(_fileToBeCleanedBlock))
+            {
+                int fileContentBlock = GetContentReferenceRegionIntValue(_fileToBeCleanedBlock);
+                CleanBlock(fileContentBlock);
+            }
+            else
+            {
+                List<int> childrenBlock = GetChildrenBlock(_fileToBeCleanedBlock);
+
+                foreach (int child in childrenBlock)
+                {
+                    Clean(_fileToBeCleanedBlock, child);
+                }
+            }
+
+            CleanBlock(_fileToBeCleanedBlock);
+        }
+
+        private void CleanBlock(int _block)
+        {
+            int inicial = GetInicialByteOfBlock(_block);
+
+            for(var i = inicial ; i<inicial+BlockSize ; i++)
+            {
+                Bytes[i] = 0;
+            }
+        }
+
         private string GetContentFromFileBlock(int fileToBeCopiedBlock)
         {
             int inicialBlockByte = GetInicialByteOfBlock(fileToBeCopiedBlock);

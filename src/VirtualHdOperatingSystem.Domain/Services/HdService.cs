@@ -42,11 +42,18 @@ namespace VirtualHdOperatingSystem.Domain.Services
         public void Copy(Hd _hd, int _currentBlock, string _fileToBeCopied, string _destiny)
         {
             _hd.Copy(_currentBlock,  _fileToBeCopied, _destiny);
+            __hdRepository__.UpsertHd(_hd);
         }
 
         public void Upsert(Hd _hd)
         {
             __hdRepository__.UpsertHd(_hd);
+        }
+
+        public void Move(Hd _hd, int _currentBlock, string _fileToBeMoved, string _destiny)
+        {
+            _hd.Copy(_currentBlock, _fileToBeMoved, _destiny);
+            _hd.CleanFromThisFileNameOn(_currentBlock, _fileToBeMoved);
         }
     }
 }

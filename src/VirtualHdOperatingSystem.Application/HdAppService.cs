@@ -63,5 +63,10 @@ namespace VirtualHdOperatingSystem.Application
         {
             __hdService__.Copy(_hd, _currentBlock, _fileToBeCopied, _destiny);
         }
+
+        public void Move(Hd _hd, int _currentBlock, string _fileToBeMoved, string _destiny)
+        {
+            __hdService__.Move(_hd, _currentBlock, _fileToBeMoved, _destiny);
+        }
     }
 }
