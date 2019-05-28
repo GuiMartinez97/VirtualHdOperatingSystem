@@ -54,6 +54,13 @@ namespace VirtualHdOperatingSystem.Domain.Services
         {
             _hd.Copy(_currentBlock, _fileToBeMoved, _destiny);
             _hd.CleanFromThisFileNameOn(_currentBlock, _fileToBeMoved);
+            __hdRepository__.UpsertHd(_hd);
+        }
+
+        public void RmDir(Hd _hd, int _currentBlock, string _fileToBeRemoved)
+        {
+            _hd.CleanFromThisFileNameOn(_currentBlock, _fileToBeRemoved);
+            __hdRepository__.UpsertHd(_hd);
         }
     }
 }

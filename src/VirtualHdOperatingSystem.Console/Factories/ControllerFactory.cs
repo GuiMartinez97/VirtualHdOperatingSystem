@@ -41,8 +41,12 @@ namespace VirtualHdOperatingSystem.Console.Factories
                     return new CopyController(request.Parameters);
                 case "move":
                     return new MoveController(request.Parameters);
+                case "renamedir":
+                    return new RenameDirController(request.Parameters);
+                case "rmdir":
+                    return new RmDirController(request.Parameters);
                 default:
-                    return new InvalidRequestController();
+                    return new InvalidRequestController(); 
             }
         }
     }

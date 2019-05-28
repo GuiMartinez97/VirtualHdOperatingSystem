@@ -68,5 +68,10 @@ namespace VirtualHdOperatingSystem.Application
         {
             __hdService__.Move(_hd, _currentBlock, _fileToBeMoved, _destiny);
         }
+
+        public void RmDir(Hd _hd, int _currentBlock, string _fileToBeRemoved)
+        {
+            __hdService__.RmDir(_hd, _currentBlock, _fileToBeRemoved);
+        }
     }
 }

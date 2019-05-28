@@ -12,5 +12,6 @@ namespace VirtualHdOperatingSystem.Domain.Interfaces.Services
         void Copy(Hd _hd, int _currentBlock, string _fileToBeCopied, string _destiny);
         void Move(Hd _hd, int _currentBlock, string _fileToBeMoved, string _destiny);
         void Upsert(Hd _hd);
+        void RmDir(Hd _hd, int _currentBlock, string _fileToBeRemoved);
     }
 }
