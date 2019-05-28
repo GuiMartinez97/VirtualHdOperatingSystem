@@ -13,5 +13,6 @@ namespace VirtualHdOperatingSystem.Application.Interfaces
         void Tree(Hd _hd, int currentFileBlock);
         void StatusHd(string _hdName);
         void Rename(Hd _hd, int _currentFileBlock, string _fileName, string _newName);
+        void Copy(Hd _hd, int _currentBlock, string _fileToBeCopied, string _destiny);
     }
 }

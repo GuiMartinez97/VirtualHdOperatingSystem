@@ -38,5 +38,15 @@ namespace VirtualHdOperatingSystem.Domain.Services
             _hd.CreateFile(_fileName, _currentFileBlock, _content);
             __hdRepository__.UpsertHd(_hd);
         }
+
+        public void Copy(Hd _hd, int _currentBlock, string _fileToBeCopied, string _destiny)
+        {
+            _hd.Copy(_currentBlock,  _fileToBeCopied, _destiny);
+        }
+
+        public void Upsert(Hd _hd)
+        {
+            __hdRepository__.UpsertHd(_hd);
+        }
     }
 }

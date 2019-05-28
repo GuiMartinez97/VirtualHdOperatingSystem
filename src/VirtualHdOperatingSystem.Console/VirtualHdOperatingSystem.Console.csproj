@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Controllers\CdController.cs" />
     <Compile Include="Controllers\ClsController.cs" />
+    <Compile Include="Controllers\CopyController.cs" />
     <Compile Include="Controllers\CreateFileController.cs" />
     <Compile Include="Controllers\CreateFolderController.cs" />
     <Compile Include="Controllers\CreateHdController.cs" />

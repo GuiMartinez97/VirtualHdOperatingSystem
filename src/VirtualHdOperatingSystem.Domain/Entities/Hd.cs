@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace VirtualHdOperatingSystem.Domain.Entities
@@ -123,16 +124,20 @@ namespace VirtualHdOperatingSystem.Domain.Entities
 
                     if (fatherReference == _currentBlock)
                     {
-                        Console.WriteLine($"{level}{GetBlockName(InicialBlock)}");
-                        if(InicialBlock != fatherReference)
+                        string blockName = GetBlockName(InicialBlock);
+                        if(blockName != "raiz")
                         {
-                            var spaces = "";
-                            foreach(var levelChar in level)
+                            Console.WriteLine($"{level}{GetBlockName(InicialBlock)}");
+                            if (InicialBlock != fatherReference)
                             {
-                                spaces += " ";
+                                var spaces = "";
+                                foreach (var levelChar in level)
+                                {
+                                    spaces += " ";
+                                }
+                                Tree(InicialBlock, spaces + "  |---");
                             }
-                            Tree(InicialBlock, spaces + "  |---");
-                        }                        
+                        }                                              
                     }
                 }
             }
@@ -221,6 +226,117 @@ namespace VirtualHdOperatingSystem.Domain.Entities
                     }
                 }
             }
+        }
+
+        public void Copy(int _currentBlock, string _fileToBeCopied, string _destiny)
+        {
+            // Identificar o bloco do destiny
+            int destinyBlock = IdentifyDestinyBlock(_destiny);
+
+            int fileToBeCopiedBlock = EnterFolder(_fileToBeCopied, _currentBlock);
+
+            // Identificamos se é arquivo (caso base)
+            if(IsFile(fileToBeCopiedBlock))
+            {
+                string fileContent = GetContentFromFileBlock(fileToBeCopiedBlock);
+                CreateFile(_fileToBeCopied, destinyBlock, fileContent);
+            }
+            else
+            {
+                CreateFolder(_fileToBeCopied, destinyBlock);
+
+                List<int> childrenBlock = GetChildrenBlock(fileToBeCopiedBlock);
+
+                foreach(int child in childrenBlock)
+                {
+                    Copy(fileToBeCopiedBlock, GetBlockName(child), _destiny + $"/{_fileToBeCopied}");
+                }
+            }
+        }
+
+        private string GetContentFromFileBlock(int fileToBeCopiedBlock)
+        {
+            int inicialBlockByte = GetInicialByteOfBlock(fileToBeCopiedBlock);
+            var contentRegionInByte = CutBytes(inicialBlockByte + 5, inicialBlockByte + BlockSize - 4);
+            var contentRegionInString = GetStringFromBytes(contentRegionInByte);
+            return contentRegionInString;
+        }
+
+        private List<int> GetChildrenBlock(int _father)
+        {
+            var childList = new List<int>();
+
+            for (var blockBeingAnalised = 0; blockBeingAnalised < BlockNumber - 1; blockBeingAnalised++)
+            {
+                int fatherOfTheBlockBeingAnalised = GetBlockOfTheFather(blockBeingAnalised);
+                if (fatherOfTheBlockBeingAnalised == _father)
+                {
+                    childList.Add(blockBeingAnalised);
+                }
+            }
+
+            return childList;
+        }
+
+        private int GetBlockOfTheFather(int _block)
+        {
+            int inicialByteOfBlock = GetInicialByteOfBlock(_block);
+            byte[] fatherReferenceInBytes = CutBytes(inicialByteOfBlock + 1, inicialByteOfBlock + 4);
+            int fatherReferenceInInt = GetIntFromBytes(fatherReferenceInBytes);
+            return fatherReferenceInInt;
+        }
+
+        private int IdentifyDestinyBlock(string _dentiny)
+        {
+            string[] filesName = _dentiny.Split('/');
+
+            var currentBlock = 0;
+            foreach(string fileName in filesName)
+            {
+                int block = GetBlockIntByName(fileName, currentBlock);
+                currentBlock = block;
+            }
+
+            return currentBlock;
+        }
+
+        private int GetBlockIntByName(string _fileName, int _currentBlock)
+        {
+            for (var blockBeingAnalised = 0; blockBeingAnalised < MaxBlockForFolderRegion; blockBeingAnalised++)
+            {
+                if (GetIntFromBytes(CutBytes(GetInicialByteOfBlock(blockBeingAnalised) + 1, GetInicialByteOfBlock(blockBeingAnalised) + 4)) == _currentBlock)
+                {
+                    string blockName = GetBlockName(blockBeingAnalised);
+                    if (blockName == _fileName)
+                    {
+                        return blockBeingAnalised;
+                    }
+                }
+            }
+
+            throw new Exception($"Folder/File {_fileName} not found!");
+        }
+
+        private bool IsFile(int _block)
+        {
+            int contentRegionIntValue = GetContentReferenceRegionIntValue(_block);
+
+            if(contentRegionIntValue == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private int GetContentReferenceRegionIntValue(int _block)
+        {
+            int inicialByte = GetInicialByteOfBlock(_block);
+            byte[] contentReferenceRegionInBytes = CutBytes(inicialByte + 5, inicialByte + 8);
+            int contentReferenceRegionInInt = GetIntFromBytes(contentReferenceRegionInBytes);
+            return contentReferenceRegionInInt;
         }
 
         private void WriteContentReference(int _fileBlock, int _emptyBlockForContent)

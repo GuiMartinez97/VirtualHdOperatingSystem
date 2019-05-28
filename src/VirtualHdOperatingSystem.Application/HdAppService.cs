@@ -56,6 +56,12 @@ namespace VirtualHdOperatingSystem.Application
         public void Rename(Hd _hd, int _currentFileBlock, string _fileName, string _newName)
         {
             _hd.RenameFile(_currentFileBlock, _fileName, _newName);
+            __hdService__.Upsert(_hd);
+        }
+
+        public void Copy(Hd _hd, int _currentBlock, string _fileToBeCopied, string _destiny)
+        {
+            __hdService__.Copy(_hd, _currentBlock, _fileToBeCopied, _destiny);
         }
     }
 }

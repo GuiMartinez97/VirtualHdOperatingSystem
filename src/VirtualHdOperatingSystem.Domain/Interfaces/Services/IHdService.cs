@@ -9,5 +9,7 @@ namespace VirtualHdOperatingSystem.Domain.Interfaces.Services
         Hd SelectHd(string _name);
         void CreateFolder(Hd _hd, string _folderName, int _currentFileBlock);
         void CreateFile(Hd _hd, string _fileName, int _currentFileBlock, string _content);
+        void Copy(Hd _hd, int _currentBlock, string _fileToBeCopied, string _destiny);
+        void Upsert(Hd _hd);
     }
 }
