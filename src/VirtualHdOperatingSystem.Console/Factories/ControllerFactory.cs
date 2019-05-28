@@ -25,6 +25,8 @@ namespace VirtualHdOperatingSystem.Console.Factories
                     return new TypeHdController(request.Parameters);
                 case "cd":
                     return new CdController(request.Parameters);
+                case "tree":
+                    return new TreeController(request.Parameters);
                 case "cls":
                     return new ClsController(request.Parameters);
                 case "dir":

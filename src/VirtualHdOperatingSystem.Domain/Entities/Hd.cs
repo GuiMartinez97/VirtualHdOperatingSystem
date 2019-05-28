@@ -110,6 +110,34 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             }
         }
 
+        public void Tree(int _currentBlock, string level)
+        {
+            for (int InicialBlock = 0; InicialBlock < BlockNumber * 0.4 ; InicialBlock++)
+            {
+                var byteForAnalisedBlock = GetInicialByteOfBlock(InicialBlock);
+                if (Bytes[byteForAnalisedBlock] == 1)
+                {
+                    var fatherReferenceInBytes = CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4);
+
+                    var fatherReference = GetIntFromBytes(fatherReferenceInBytes);
+
+                    if (fatherReference == _currentBlock)
+                    {
+                        Console.WriteLine($"{level}{GetBlockName(InicialBlock)}");
+                        if(InicialBlock != fatherReference)
+                        {
+                            var spaces = "";
+                            foreach(var levelChar in level)
+                            {
+                                spaces += " ";
+                            }
+                            Tree(InicialBlock, spaces + "  |---");
+                        }                        
+                    }
+                }
+            }
+        }
+
         private void WriteContentReference(int _fileBlock, int _emptyBlockForContent)
         {
             var inicialByte = GetInicialByteOfBlock(_fileBlock);

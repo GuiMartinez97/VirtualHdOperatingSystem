@@ -10,5 +10,6 @@ namespace VirtualHdOperatingSystem.Application.Interfaces
         void CreateFile(Hd _hd, string _fileName, int _currentFileBlock, string _content);
         int EnterFolder(Hd _hd, string _folderName, int currentFileBlock);
         void Dir(Hd _hd, int currentFileBlock);
+        void Tree(Hd _hd, int currentFileBlock);
     }
 }

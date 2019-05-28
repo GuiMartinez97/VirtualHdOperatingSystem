@@ -41,5 +41,10 @@ namespace VirtualHdOperatingSystem.Application
         {
             _hd.Dir(currentFileBlock);
         }
+
+        public void Tree(Hd _hd, int currentFileBlock)
+        {
+            _hd.Tree(currentFileBlock, "");
+        }
     }
 }
