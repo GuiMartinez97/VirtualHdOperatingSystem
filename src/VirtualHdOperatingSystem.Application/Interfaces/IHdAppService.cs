@@ -11,5 +11,6 @@ namespace VirtualHdOperatingSystem.Application.Interfaces
         int EnterFolder(Hd _hd, string _folderName, int currentFileBlock);
         void Dir(Hd _hd, int currentFileBlock);
         void Tree(Hd _hd, int currentFileBlock);
+        void StatusHd(string _hdName);
     }
 }

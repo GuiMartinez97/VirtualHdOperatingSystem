@@ -31,6 +31,8 @@ namespace VirtualHdOperatingSystem.Console.Factories
                     return new ClsController(request.Parameters);
                 case "dir":
                     return new DirController(request.Parameters);
+                case "statushd":
+                    return new StatusHdController(request.Parameters);
                 default:
                     return new InvalidRequestController();
             }

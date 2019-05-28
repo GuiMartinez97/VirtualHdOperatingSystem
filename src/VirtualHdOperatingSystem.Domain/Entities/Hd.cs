@@ -138,6 +138,66 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             }
         }
 
+        public void StatusHd()
+        {
+            Console.WriteLine($"Total block: {BlockNumber}");
+            Console.WriteLine($"Total bytes: {BlockNumber * BlockSize}");
+
+            int totalUsedBlocks = 0;
+            int totalUsedBytes = 0;
+            int totalBlockUsedByFolder = 0;
+            int totalBlockUsedByFile = 0;
+
+            int totalFolder = 0;
+            int totalFile = 0;
+
+            for (int InicialBlock = 0; InicialBlock < BlockNumber - 1; InicialBlock++)
+            {
+                var byteForAnalisedBlock = GetInicialByteOfBlock(InicialBlock);
+                if (Bytes[byteForAnalisedBlock] == 1)
+                {
+                    for(int i = 0 ; i<BlockSize ; i++)
+                    {
+                        if(Bytes[byteForAnalisedBlock + i] != 0)
+                        {
+                            totalUsedBytes++;
+                        }
+                    }
+                    totalUsedBlocks++;
+
+                    if(InicialBlock < BlockNumber * 0.4)
+                    {
+                        totalBlockUsedByFolder++;
+
+                        var contentReference = GetIntFromBytes(CutBytes(byteForAnalisedBlock + 5, byteForAnalisedBlock + 8));
+
+                        if(contentReference == 0)
+                        {
+                            totalFolder++;
+                        }
+                        else
+                        {
+                            totalFile++;
+                        }
+                    }
+                    else
+                    {
+                        totalBlockUsedByFile++;
+                    }
+                }
+            }
+
+            Console.WriteLine($"Total used Block: {totalUsedBlocks}");
+            Console.WriteLine($"Total used bytes: {totalUsedBytes}");
+
+            Console.WriteLine($"Total used Block by folder: {totalBlockUsedByFolder}");
+            Console.WriteLine($"Total used Block by file: {totalBlockUsedByFile}");
+
+            Console.WriteLine($"Total folder: {totalFolder}");
+            Console.WriteLine($"Total file: {totalFile}");
+
+        }
+
         private void WriteContentReference(int _fileBlock, int _emptyBlockForContent)
         {
             var inicialByte = GetInicialByteOfBlock(_fileBlock);

@@ -46,5 +46,11 @@ namespace VirtualHdOperatingSystem.Application
         {
             _hd.Tree(currentFileBlock, "");
         }
+
+        public void StatusHd(string _hdName)
+        {
+            var hd = __hdService__.SelectHd(_hdName);
+            hd.StatusHd();
+        }
     }
 }
