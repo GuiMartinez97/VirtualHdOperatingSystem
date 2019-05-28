@@ -73,5 +73,10 @@ namespace VirtualHdOperatingSystem.Application
         {
             __hdService__.RmDir(_hd, _currentBlock, _fileToBeRemoved);
         }
+
+        public void CopyFrom(Hd _hd, int _currentBlock, string _imageName, string _newImageName)
+        {
+            __hdService__.CopyFrom(_hd, _currentBlock, _imageName, _newImageName);
+        }
     }
 }

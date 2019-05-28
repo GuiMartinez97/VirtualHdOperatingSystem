@@ -25,5 +25,10 @@ namespace VirtualHdOperatingSystem.Data.Repositories
                 throw new Exception("HD not found!");
             }            
         }
+
+        public byte[] GetImageByteArray(string _imageName)
+        {
+            return __fileContext__.GetImageByteArray(_imageName);
+        }
     }
 }

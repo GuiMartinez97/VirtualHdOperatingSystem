@@ -16,5 +16,6 @@ namespace VirtualHdOperatingSystem.Application.Interfaces
         void Copy(Hd _hd, int _currentBlock, string _fileToBeCopied, string _destiny);
         void Move(Hd _hd, int _currentBlock, string _fileToBeMoved, string _destiny);
         void RmDir(Hd _hd, int _currentBlock, string _fileToBeRemoved);
+        void CopyFrom(Hd _hd, int _currentBlock, string _imageName, string _newImageName);
     }
 }

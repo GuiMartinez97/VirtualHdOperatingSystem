@@ -63,6 +63,21 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             WriteContent(emptyBlockForContent, _content);
         }
 
+        public void CreateImageFile(string _folderName, int _currentFileBlock, byte[] _content)
+        {
+            var fileBlock = CreateFolder(_folderName, _currentFileBlock);
+
+            int emptyBlockForContent = FindEmptyBlockForContent();
+
+            SetInUsedBlock(emptyBlockForContent);
+
+            WriteContentReference(fileBlock, emptyBlockForContent);
+
+            WriteFather(emptyBlockForContent, fileBlock);
+
+            WriteContentInByte(emptyBlockForContent, _content);
+        }
+
         public int EnterFolder(string _folderName, int _currentFileBlock)
         {
             for(var blockBeingAnalised = 0 ; blockBeingAnalised < MaxBlockForFolderRegion ; blockBeingAnalised++)
@@ -87,9 +102,61 @@ namespace VirtualHdOperatingSystem.Domain.Entities
                 var byteForAnalisedBlock = GetInicialByteOfBlock(InicialBlock);
                 if(Bytes[byteForAnalisedBlock] == 1)
                 {
-                    Console.WriteLine($"{InicialBlock} - {Bytes[byteForAnalisedBlock]} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4))} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 5, byteForAnalisedBlock + 8))} - {GetBlockName(InicialBlock)}");
+                    if (InicialBlock >= BlockNumber * 0.4)
+                    {
+                        var teste = GetBlockContentInString(InicialBlock);
+                        Console.WriteLine($"{InicialBlock} - {Bytes[byteForAnalisedBlock]} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4))} - {GetBlockContentInString(InicialBlock)}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{InicialBlock} - {Bytes[byteForAnalisedBlock]} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4))} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 5, byteForAnalisedBlock + 8))} - {GetBlockName(InicialBlock)}");
+                    }                    
                 }
             }
+        }
+
+        public byte[] GetBlockContentInByte(int _block)
+        {
+            int inicialBytes = GetInicialByteOfBlock(_block);
+            byte[] fullContentIncludingZeros = CutBytes(inicialBytes + 5, inicialBytes + BlockSize - 4);
+            List<byte> fullContentIncludingWithZerosList = new List<byte>();
+
+            int zeroTrack = 0;
+            foreach(byte byteThatCouldBeZero in fullContentIncludingZeros)
+            {
+                if (byteThatCouldBeZero == 0)
+                {
+                    zeroTrack++;
+                }
+                else
+                {
+                    if (byteThatCouldBeZero > 0)
+                    {
+                        zeroTrack = 0;
+                    }
+                }
+                fullContentIncludingWithZerosList.Add(byteThatCouldBeZero);
+                if (zeroTrack == 10)
+                {
+                    break;
+                }
+            }
+
+            if(zeroTrack > 0)
+            {
+                for(var i = 0; i <zeroTrack; i++)
+                {
+                    fullContentIncludingWithZerosList.RemoveAt(fullContentIncludingWithZerosList.Count - 1);
+                }
+            }
+
+            return fullContentIncludingWithZerosList.ToArray();
+        }
+
+        public string GetBlockContentInString(int _block)
+        {
+            byte[] contentInByte = GetBlockContentInByte(_block);
+            return GetStringFromBytes(contentInByte);
         }
 
         public void Dir(int _currentBlock)
@@ -388,7 +455,12 @@ namespace VirtualHdOperatingSystem.Domain.Entities
         private void WriteContent(int _emptyBlockForContent, string _content)
         {
             var contentInByte = GetBytesFromString(_content);
-            CopyToBytes(contentInByte, _emptyBlockForContent + 9);
+            CopyToBytes(contentInByte, GetInicialByteOfBlock(_emptyBlockForContent) + 5);
+        }
+
+        private void WriteContentInByte(int _emptyBlockForContent, byte[] _content)
+        {
+            CopyToBytes(_content, _emptyBlockForContent + 9);
         }
 
         private string GetBlockName(int _block)

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System.IO;
 
 namespace VirtualHdOperatingSystem.Data.Context
 {
@@ -24,6 +25,19 @@ namespace VirtualHdOperatingSystem.Data.Context
         {
             var bytesFromFile = File.ReadAllBytes($"{__path__}{_fileName}");
             return bytesFromFile;
+        }
+
+        public byte[] GetImageByteArray(string _imageName)
+        {
+            Image img = Image.FromFile($"{_imageName}");
+            byte[] arr;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                arr = ms.ToArray();
+            }
+
+            return arr;
         }
     }
 }
