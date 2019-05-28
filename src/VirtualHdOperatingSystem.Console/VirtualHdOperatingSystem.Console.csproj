@@ -51,6 +51,7 @@
     <Compile Include="Controllers\ClsController.cs" />
     <Compile Include="Controllers\CopyController.cs" />
     <Compile Include="Controllers\CopyFromController.cs" />
+    <Compile Include="Controllers\CopyToController.cs" />
     <Compile Include="Controllers\CreateFileController.cs" />
     <Compile Include="Controllers\CreateFolderController.cs" />
     <Compile Include="Controllers\CreateHdController.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\InvalidRequestController.cs" />
     <Compile Include="Controllers\MoveController.cs" />
+    <Compile Include="Controllers\RemoveHdController.cs" />
     <Compile Include="Controllers\RenameController.cs" />
     <Compile Include="Controllers\RenameDirController.cs" />
     <Compile Include="Controllers\RmDirController.cs" />

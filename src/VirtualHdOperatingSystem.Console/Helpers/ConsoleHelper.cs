@@ -14,6 +14,11 @@ namespace VirtualHdOperatingSystem.Console.Helpers
             FileStack.Clear();
         }
 
+        public static void ClearHd()
+        {
+            SelectedHd = null;
+        }
+
         public static void SetSelectedHd(Hd _hd)
         {
             SelectedHd = _hd;

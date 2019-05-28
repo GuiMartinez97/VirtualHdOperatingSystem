@@ -78,5 +78,15 @@ namespace VirtualHdOperatingSystem.Application
         {
             __hdService__.CopyFrom(_hd, _currentBlock, _imageName, _newImageName);
         }
+
+        public void CopyTo(Hd _hd, int _currentBlock, string _imageName, string _newImageName)
+        {
+            __hdService__.CopyTo(_hd, _currentBlock, _imageName, _newImageName);
+        }
+
+        public void RemoveHd(string HdName)
+        {
+            __hdService__.RemoveHd(HdName);
+        }
     }
 }

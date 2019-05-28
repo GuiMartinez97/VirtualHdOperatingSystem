@@ -69,5 +69,16 @@ namespace VirtualHdOperatingSystem.Domain.Services
             _hd.CreateImageFile(_newImageName, _currentBlock, imageByteArray);
             __hdRepository__.UpsertHd(_hd);
         }
+
+        public void CopyTo(Hd _hd, int _currentBlock, string _imageName, string _newImageName)
+        {
+            byte[] contentInByte = _hd.GetContentFromFile(_currentBlock, _imageName);
+            __hdRepository__.SaveImage(contentInByte, _newImageName);
+        }
+
+        public void RemoveHd(string HdName)
+        {
+            __hdRepository__.RemoveHd(HdName);
+        }
     }
 }

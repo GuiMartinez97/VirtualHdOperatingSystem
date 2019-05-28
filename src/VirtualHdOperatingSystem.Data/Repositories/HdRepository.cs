@@ -30,5 +30,15 @@ namespace VirtualHdOperatingSystem.Data.Repositories
         {
             return __fileContext__.GetImageByteArray(_imageName);
         }
+
+        public void SaveImage(byte[] contentInByte, string _newImageName)
+        {
+            __fileContext__.SaveImage(contentInByte, _newImageName);
+        }
+
+        public void RemoveHd(string HdName)
+        {
+            __fileContext__.RemoveHd(HdName);
+        }
     }
 }

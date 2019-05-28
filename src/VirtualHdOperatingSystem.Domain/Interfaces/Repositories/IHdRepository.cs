@@ -12,5 +12,7 @@ namespace VirtualHdOperatingSystem.Domain.Interfaces.Repositories
         void UpsertHd(Hd _hd);
         byte[] SelectHd(string name);
         byte[] GetImageByteArray(string _imageName);
+        void SaveImage(byte[] contentInByte, string _newImageName);
+        void RemoveHd(string HdName);
     }
 }

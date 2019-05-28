@@ -39,5 +39,17 @@ namespace VirtualHdOperatingSystem.Data.Context
 
             return arr;
         }
+
+        public void SaveImage(byte[] contentInByte, string _newImageName)
+        {
+            MemoryStream ms = new MemoryStream(contentInByte);
+            Image returnImage = Image.FromStream(ms);
+            returnImage.Save(_newImageName);
+        }
+
+        public void RemoveHd(string HdName)
+        {
+            File.Delete($"{__path__}{HdName}");
+        }
     }
 }

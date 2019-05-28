@@ -47,6 +47,10 @@ namespace VirtualHdOperatingSystem.Console.Factories
                     return new RmDirController(request.Parameters);
                 case "copyfrom":
                     return new CopyFromController(request.Parameters);
+                case "copyto":
+                    return new CopyToController(request.Parameters);
+                case "removehd":
+                    return new RemoveHdController(request.Parameters);
                 default:
                     return new InvalidRequestController(); 
             }

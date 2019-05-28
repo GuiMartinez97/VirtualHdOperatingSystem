@@ -104,18 +104,33 @@ namespace VirtualHdOperatingSystem.Domain.Entities
                 {
                     if (InicialBlock >= BlockNumber * 0.4)
                     {
-                        var teste = GetBlockContentInString(InicialBlock);
-                        Console.WriteLine($"{InicialBlock} - {Bytes[byteForAnalisedBlock]} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4))} - {GetBlockContentInString(InicialBlock)}");
+                        Console.WriteLine($"{InicialBlock} - {Bytes[byteForAnalisedBlock]} - {ConvertToHex(GetIntFromBytes(CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4)))} - {GetBlockContentInString(InicialBlock)}");
+                        Console.WriteLine($"{InicialBlock} - {ConvertToHex(Bytes[byteForAnalisedBlock])} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4))} - {GetBlockContentInString(InicialBlock)}");
                     }
                     else
                     {
+                        Console.WriteLine($"{InicialBlock} - {ConvertToHex(Bytes[byteForAnalisedBlock])} - {ConvertToHex(GetIntFromBytes(CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4)))} - {ConvertToHex(GetIntFromBytes(CutBytes(byteForAnalisedBlock + 5, byteForAnalisedBlock + 8)))} - {GetBlockName(InicialBlock)}");
                         Console.WriteLine($"{InicialBlock} - {Bytes[byteForAnalisedBlock]} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4))} - {GetIntFromBytes(CutBytes(byteForAnalisedBlock + 5, byteForAnalisedBlock + 8))} - {GetBlockName(InicialBlock)}");
                     }                    
                 }
             }
         }
 
-        public byte[] GetBlockContentInByte(int _block)
+        private string ConvertToHex(int value)
+        {
+            return value.ToString("X");
+        }
+
+        public byte[] GetContentFromFile(int _currentBlock, string _imageName)
+        {
+            int fileBlock = EnterFolder(_imageName, _currentBlock);
+
+            int contentBlock = GetContentReferenceRegionIntValue(fileBlock);
+
+            return GetBlockContentInByte(contentBlock);
+        }
+
+        private byte[] GetBlockContentInByte(int _block)
         {
             int inicialBytes = GetInicialByteOfBlock(_block);
             byte[] fullContentIncludingZeros = CutBytes(inicialBytes + 5, inicialBytes + BlockSize - 4);
@@ -136,7 +151,7 @@ namespace VirtualHdOperatingSystem.Domain.Entities
                     }
                 }
                 fullContentIncludingWithZerosList.Add(byteThatCouldBeZero);
-                if (zeroTrack == 10)
+                if (zeroTrack == 30)
                 {
                     break;
                 }
@@ -153,7 +168,7 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             return fullContentIncludingWithZerosList.ToArray();
         }
 
-        public string GetBlockContentInString(int _block)
+        private string GetBlockContentInString(int _block)
         {
             byte[] contentInByte = GetBlockContentInByte(_block);
             return GetStringFromBytes(contentInByte);
