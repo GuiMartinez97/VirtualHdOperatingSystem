@@ -91,6 +91,25 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             }
         }
 
+        public void Dir(int _currentBlock)
+        {
+            for (int InicialBlock = 0; InicialBlock < BlockNumber - 1; InicialBlock++)
+            {
+                var byteForAnalisedBlock = GetInicialByteOfBlock(InicialBlock);
+                if (Bytes[byteForAnalisedBlock] == 1)
+                {
+                    var fatherReferenceInBytes = CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4);
+
+                    var fatherReference = GetIntFromBytes(fatherReferenceInBytes);
+                    
+                    if(fatherReference == _currentBlock)
+                    {
+                        Console.WriteLine($"{GetBlockName(InicialBlock)}");
+                    }                    
+                }
+            }
+        }
+
         private void WriteContentReference(int _fileBlock, int _emptyBlockForContent)
         {
             var inicialByte = GetInicialByteOfBlock(_fileBlock);

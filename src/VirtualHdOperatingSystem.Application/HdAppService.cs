@@ -36,5 +36,10 @@ namespace VirtualHdOperatingSystem.Application
         {
             return _hd.EnterFolder(_folderName, currentFileBlock);
         }
+
+        public void Dir(Hd _hd, int currentFileBlock)
+        {
+            _hd.Dir(currentFileBlock);
+        }
     }
 }
