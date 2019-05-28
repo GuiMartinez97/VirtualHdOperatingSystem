@@ -93,7 +93,7 @@ namespace VirtualHdOperatingSystem.Domain.Entities
 
         public void Dir(int _currentBlock)
         {
-            for (int InicialBlock = 0; InicialBlock < BlockNumber - 1; InicialBlock++)
+            for (int InicialBlock = 0; InicialBlock < BlockNumber * 0.4; InicialBlock++)
             {
                 var byteForAnalisedBlock = GetInicialByteOfBlock(InicialBlock);
                 if (Bytes[byteForAnalisedBlock] == 1)
@@ -196,6 +196,31 @@ namespace VirtualHdOperatingSystem.Domain.Entities
             Console.WriteLine($"Total folder: {totalFolder}");
             Console.WriteLine($"Total file: {totalFile}");
 
+        }
+
+        public void RenameFile(int _currentFileBlock, string _fileName, string _newName)
+        {
+            for (int InicialBlock = 0; InicialBlock < BlockNumber * 0.4; InicialBlock++)
+            {
+                var byteForAnalisedBlock = GetInicialByteOfBlock(InicialBlock);
+                if (Bytes[byteForAnalisedBlock] == 1)
+                {
+                    var fatherReferenceInBytes = CutBytes(byteForAnalisedBlock + 1, byteForAnalisedBlock + 4);
+
+                    var fatherReference = GetIntFromBytes(fatherReferenceInBytes);
+
+                    if (fatherReference == _currentFileBlock)
+                    {
+                        string analisedBlockName = GetBlockName(InicialBlock);
+                        if(analisedBlockName == _fileName)
+                        {
+                            byte[] cleaningByteArray = new byte[BlockSize];
+                            CopyToBytes(cleaningByteArray, byteForAnalisedBlock + 9);
+                            WriteName(InicialBlock, _newName);
+                        }
+                    }
+                }
+            }
         }
 
         private void WriteContentReference(int _fileBlock, int _emptyBlockForContent)

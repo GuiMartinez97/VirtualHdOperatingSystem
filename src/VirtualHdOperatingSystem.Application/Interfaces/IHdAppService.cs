@@ -12,5 +12,6 @@ namespace VirtualHdOperatingSystem.Application.Interfaces
         void Dir(Hd _hd, int currentFileBlock);
         void Tree(Hd _hd, int currentFileBlock);
         void StatusHd(string _hdName);
+        void Rename(Hd _hd, int _currentFileBlock, string _fileName, string _newName);
     }
 }

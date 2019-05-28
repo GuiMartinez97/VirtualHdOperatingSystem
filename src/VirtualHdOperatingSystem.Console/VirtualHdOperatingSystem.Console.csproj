@@ -55,6 +55,7 @@
     <Compile Include="Controllers\DirController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\InvalidRequestController.cs" />
+    <Compile Include="Controllers\RenameController.cs" />
     <Compile Include="Controllers\SelectHdController.cs" />
     <Compile Include="Controllers\StatusHdController.cs" />
     <Compile Include="Controllers\TreeController.cs" />

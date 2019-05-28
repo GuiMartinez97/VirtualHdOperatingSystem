@@ -52,5 +52,10 @@ namespace VirtualHdOperatingSystem.Application
             var hd = __hdService__.SelectHd(_hdName);
             hd.StatusHd();
         }
+
+        public void Rename(Hd _hd, int _currentFileBlock, string _fileName, string _newName)
+        {
+            _hd.RenameFile(_currentFileBlock, _fileName, _newName);
+        }
     }
 }
